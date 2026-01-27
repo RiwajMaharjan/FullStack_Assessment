@@ -1,0 +1,167 @@
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #f5f7fa;
+    min-height: 100vh;
+    padding: 2rem;
+    color: #2d3748;
+    line-height: 1.6;
+}
+
+/* Header Styles */
+header {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem 2.5rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header h1 {
+    font-size: 1.875rem;
+    font-weight: 700;
+    color: #1a202c;
+}
+
+header a {
+    background: #e53e3e;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+header a:hover {
+    background: #c53030;
+}
+
+/* Main Container */
+main {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* Section Styles */
+section {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem 2.5rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+section h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1a202c;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+/* Button Styles */
+.btn {
+    display: inline-block;
+    background: #667eea;
+    color: white;
+    padding: 0.625rem 1.25rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    background: #5568d3;
+    color: white;
+    transform: scale(1.02);
+}
+
+/* Table Styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+    background: white;
+}
+
+table th {
+    background: #f7fafc;
+    padding: 1rem;
+    text-align: left;
+    font-weight: 600;
+    color: #2d3748;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+table td {
+    padding: 1rem;
+    border-bottom: 1px solid #e2e8f0;
+    color: #4a5568;
+}
+
+table tr:hover {
+    background: #f7fafc;
+}
+
+/* Link Styles */
+a {
+    color: #667eea;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+a:hover {
+    color: #5568d3;
+}
+
+.delete-link {
+    color: #e53e3e;
+}
+
+.delete-link:hover {
+    color: #c53030;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    body {
+        padding: 1rem;
+    }
+
+    header {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+
+    header h1 {
+        font-size: 1.5rem;
+    }
+
+    section {
+        padding: 1.5rem;
+    }
+
+    table {
+        display: block;
+        overflow-x: auto;
+    }
+
+    table th,
+    table td {
+        padding: 0.75rem;
+        font-size: 0.875rem;
+    }
+}

@@ -1,0 +1,174 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-text-color: #1a1a1a;
+    --para-text-color: #666;
+    
+}
+
+body {
+    font-family:"Poppins", sans-serif;
+    min-width: 100vw;
+    min-height: 100vh;
+    max-height: 100vh;
+    max-width: 100vw;
+    overflow: hidden;
+}
+
+main {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+.container-left {
+    padding: 1rem;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container-left img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 1rem;
+}
+
+
+
+.container-right {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+.header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+}
+
+.header h1 {
+    font-size: 2.5rem;
+    font-weight: 600;
+    color: var(--primary-text-color);
+
+}
+
+.header p {
+    color: var(--para-text-color);
+}
+
+.signup-form {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 1.5rem 2rem;
+    gap: 1.5rem;
+    width: 25vw;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 0.3rem;
+
+}
+
+.form-group-checkbox {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.form-group-checkbox input {
+    accent-color: #F16D34;
+}
+
+
+.form-group input {
+    padding: 1rem 1.5rem;
+    width: 100%;
+    outline: none;
+    border: 1px solid #999;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.form-group input:focus {
+    border-color: #F16D34;
+
+}
+
+.signup-btn {
+    padding: 1rem 1.5rem;
+    width: 100%;
+    outline: none;
+    border: none;
+    font-size: 1rem;
+    background: #F16D34;
+    color: white;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    
+}
+
+.signup-btn:hover {
+    background: #FF986A;
+    transform: translateY(-2px);
+}
+
+.hyperlink:hover {
+    color: #FF986A;
+
+}
+
+.error {
+    color: red;
+}
+
+@media (max-width: 768px) {
+    .container-left figure {
+        display: none;
+    }
+
+    main {
+        grid-template-columns: 1fr;
+    }
+
+    .signup-form {
+        width: 100%;
+    }
+    body {
+        overflow: auto;
+    }
+
+    .header h1 {
+        text-align: center;
+        font-size: 1.5rem;
+    }
+
+    .agree-text {
+        font-size: 0.8rem;
+    }
+
+
+}
+
