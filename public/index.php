@@ -15,7 +15,6 @@
             <li><a href="#home">Home</a></li>
             <li><a href="#features">Features</a></li>
             <li><a href="#classes">Classes</a></li>
-            <li><a href="#pricing">Pricing</a></li>
         </ul>
         <div class="auth-buttons">
             <a href="login.php" class="btn btn-login">Login</a>

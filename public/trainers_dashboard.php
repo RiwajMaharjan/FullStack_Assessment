@@ -105,7 +105,7 @@ $attendance = $pdo->query("SELECT a.id, u.name AS member_name, a.date, a.status
 
         <section>
             <h2>Workout Plans</h2>
-            <a href="add_workout.php">Add Workout</a>
+            <a href="workout_crud/add_workout.php">Add Workout</a>
             <table border="1">
                 <tr><th>ID</th><th>Member</th><th>Details</th><th>Start</th><th>End</th><th>Actions</th></tr>
                 <?php foreach ($workout_plans as $w): ?>
