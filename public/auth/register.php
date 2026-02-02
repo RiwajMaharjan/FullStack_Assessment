@@ -1,7 +1,7 @@
 <?php
 session_start();
-require_once __DIR__ . '/../includes/functions.php';
-require_once __DIR__ . '/../config/db.php';
+require_once __DIR__ . '/../../includes/functions.php';
+require_once __DIR__ . '/../../config/db.php';
 
 $name = $email = '';
 $errors = [
@@ -65,14 +65,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="../assets/css/signup_login_style.css">
+    <link rel="stylesheet" href="../../assets/css/signup_login_style.css">
     <script src="https://kit.fontawesome.com/78444c0a5e.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <main>
         <div class="container-left">
             <figure>
-                <img src="../assets/images/fitness_signup_hero.jpg" alt="">
+                <img src="../../assets/images/fitness_signup_hero.jpg" alt="">
             </figure>
         </div>
 

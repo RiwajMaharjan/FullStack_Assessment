@@ -2,8 +2,8 @@
 session_start();
 header('Content-Type: application/json');
 
-require_once __DIR__ . '/../config/db.php';
-require_once __DIR__ . '/../includes/functions.php';
+require_once __DIR__ . '/../../config/db.php';
+require_once __DIR__ . '/../../includes/functions.php';
 
 // Only trainers can access
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'trainer') {
@@ -35,11 +35,27 @@ $status = in_array(strtolower($status), ['present', 'absent']) ? ucfirst(strtolo
 
 try {
     if ($id === '') {
+        // Check for duplicate attendance
+        $checkStmt = $pdo->prepare("SELECT id FROM attendance WHERE member_id = ? AND date = ?");
+        $checkStmt->execute([$member_id, $date]);
+        if ($checkStmt->fetch()) {
+            echo json_encode(['success' => false, 'error' => 'Attendance already recorded for this date']);
+            exit;
+        }
+
         // ADD new attendance
         $stmt = $pdo->prepare("INSERT INTO attendance (member_id, date, status) VALUES (?, ?, ?)");
         $stmt->execute([$member_id, $date, $status]);
         echo json_encode(['success' => true]);
     } else {
+        // Check for duplicate attendance
+        $checkStmt = $pdo->prepare("SELECT id FROM attendance WHERE member_id = ? AND date = ? AND id != ?");
+        $checkStmt->execute([$member_id, $date, $id]);
+        if ($checkStmt->fetch()) {
+            echo json_encode(['success' => false, 'error' => 'Attendance already recorded for this member on this date']);
+            exit;
+        }
+
         // UPDATE existing attendance
         $stmt = $pdo->prepare("UPDATE attendance SET member_id = ?, date = ?, status = ? WHERE id = ?");
         $stmt->execute([$member_id, $date, $status, $id]);

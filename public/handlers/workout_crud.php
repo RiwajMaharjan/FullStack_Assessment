@@ -2,8 +2,8 @@
 session_start();
 header('Content-Type: application/json');
 
-require_once __DIR__ . '/../config/db.php';
-require_once __DIR__ . '/../includes/functions.php';
+require_once __DIR__ . '/../../config/db.php';
+require_once __DIR__ . '/../../includes/functions.php';
 
 // Only trainers can access
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'trainer') {
@@ -29,6 +29,11 @@ $trainer_id = $_SESSION['user_id'] ?? null;
 // Validation
 if ($member_id === '' || $plan_details === '') {
     echo json_encode(['success' => false, 'error' => 'Member and plan details are required']);
+    exit;
+}
+
+if ($start_date && $end_date && $start_date > $end_date) {
+    echo json_encode(['success' => false, 'error' => 'Start date cannot be after end date']);
     exit;
 }
 

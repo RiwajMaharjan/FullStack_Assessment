@@ -8,6 +8,8 @@ document.addEventListener('DOMContentLoaded', () => {
         modalTitle.textContent = 'Add Workout Plan';
         form.reset();
         form.id.value = '';
+        const errorEl = form.querySelector('.error-message');
+        if (errorEl) errorEl.textContent = '';
         modal.style.display = 'block';
     });
 
@@ -29,8 +31,16 @@ document.addEventListener('DOMContentLoaded', () => {
     form.addEventListener('submit', e => {
         e.preventDefault();
         const data = new FormData(form);
-        fetch('workout_crud.php', { method: 'POST', body: data })
+        fetch('../handlers/workout_crud.php', { method: 'POST', body: data })
             .then(res => res.json())
-            .then(res => { if (res.success) location.reload(); else alert(res.error || 'Error'); });
+            .then(res => {
+                const errorEl = form.querySelector('.error-message');
+                if (res.success) {
+                    location.reload();
+                } else {
+                    if (errorEl) errorEl.textContent = res.error || 'Something went wrong.';
+                    else alert(res.error || 'Something went wrong.');
+                }
+            });
     });
 });

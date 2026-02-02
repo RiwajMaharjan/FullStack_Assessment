@@ -1,9 +1,9 @@
 <?php
 session_start();
-require_once __DIR__ . '/../config/db.php';
+require_once __DIR__ . '/../../config/db.php';
 
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'member') {
-    header('Location: login.php');
+    header('Location: ../auth/login.php');
     exit;
 }
 
@@ -57,7 +57,7 @@ if (!$member) {
 <head>
     <meta charset="UTF-8">
     <title>Member Dashboard</title>
-    <link rel="stylesheet" href="../assets/css/member_dashboard.css">
+    <link rel="stylesheet" href="../../assets/css/member_dashboard.css">
 </head>
 <body>
 
@@ -65,7 +65,7 @@ if (!$member) {
     <h1>
         Welcome<?= $showPending ? '' : ', ' . htmlspecialchars($member['name']) ?>
     </h1>
-    <a href="logout.php">Logout</a>
+    <a href="../auth/logout.php">Logout</a>
 </header>
 
 <main>

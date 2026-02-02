@@ -1,7 +1,7 @@
 <?php
 // Make sure CSRF function is available
 if (!function_exists('generateCSRFToken')) {
-    require_once __DIR__ . '/../includes/functions.php';
+    require_once __DIR__ . '/../../includes/functions.php';
 }
 ?>
 
@@ -14,6 +14,7 @@ if (!function_exists('generateCSRFToken')) {
         <form id="memberForm">
             <input type="hidden" name="id" id="memberId" value="">
             <input type="hidden" name="csrf_token" value="<?= generateCSRFToken(); ?>">
+            <small class="error-message" style="color: red; display: block; margin-bottom: 10px;"></small>
 
             <div class="form-group">
                 <label>Full Name</label>
@@ -32,7 +33,7 @@ if (!function_exists('generateCSRFToken')) {
 
             <div class="form-group">
                 <label>Membership</label>
-                <select name="membership_id" id="memberMembership">
+                <select name="membership_id" id="memberMembership" required>
                     <option value="">Select membership</option>
                     <?php foreach ($memberships as $ms): ?>
                         <option value="<?= $ms['id'] ?>"><?= htmlspecialchars($ms['name']) ?></option>
@@ -64,6 +65,7 @@ if (!function_exists('generateCSRFToken')) {
         <form id="membershipForm">
             <input type="hidden" name="id" id="membershipId" value="">
             <input type="hidden" name="csrf_token" value="<?= generateCSRFToken(); ?>">
+            <small class="error-message" style="color: red; display: block; margin-bottom: 10px;"></small>
 
             <div class="form-group">
                 <label>Name</label>
@@ -112,12 +114,12 @@ if (!function_exists('generateCSRFToken')) {
 
             <div class="form-group">
                 <label>Start Date</label>
-                <input type="date" name="start_date" id="workoutStartDate">
+                <input type="date" name="start_date" id="workoutStartDate" required>
             </div>
 
             <div class="form-group">
                 <label>End Date</label>
-                <input type="date" name="end_date" id="workoutEndDate">
+                <input type="date" name="end_date" id="workoutEndDate" required>
             </div>
 
             <button type="submit" id="workoutModalSubmit">Save</button>

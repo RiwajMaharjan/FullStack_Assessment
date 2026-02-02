@@ -17,8 +17,8 @@
             <li><a href="#classes">Classes</a></li>
         </ul>
         <div class="auth-buttons">
-            <a href="login.php" class="btn btn-login">Login</a>
-            <a href="register.php" class="btn btn-signup">Sign Up</a>
+            <a href="auth/login.php" class="btn btn-login">Login</a>
+            <a href="auth/register.php" class="btn btn-signup">Sign Up</a>
         </div>
     </nav>
 

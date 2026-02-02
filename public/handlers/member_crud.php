@@ -2,8 +2,8 @@
 session_start();
 header('Content-Type: application/json');
 
-require_once __DIR__ . '/../config/db.php';
-require_once __DIR__ . '/../includes/functions.php';
+require_once __DIR__ . '/../../config/db.php';
+require_once __DIR__ . '/../../includes/functions.php';
 
 // Only trainers can access
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'trainer') {
@@ -28,8 +28,8 @@ $join_date = $_POST['join_date'] ?? null;
 $expiry_date = $_POST['expiry_date'] ?? null;
 
 // Basic validation
-if ($name === '' || $email === '') {
-    echo json_encode(['success' => false, 'error' => 'Name and email are required']);
+if ($name === '' || $email === '' || empty($membership_id)) {
+    echo json_encode(['success' => false, 'error' => 'Name, email, and membership are required']);
     exit;
 }
 
@@ -70,6 +70,14 @@ try {
         if (!$member) throw new Exception('Member not found');
 
         $user_id = $member['user_id'];
+
+        // Check for duplicate email (excluding current member)
+        $checkStmt = $pdo->prepare("SELECT id FROM members WHERE email = ? AND id != ?");
+        $checkStmt->execute([$email, $id]);
+        if ($checkStmt->fetch()) {
+            echo json_encode(['success' => false, 'error' => 'Email is already used by another member']);
+            exit;
+        }
 
         // Update members table only
         $stmt = $pdo->prepare("UPDATE members 

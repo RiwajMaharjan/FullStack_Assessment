@@ -134,6 +134,38 @@ a:hover {
     color: #c53030;
 }
 
+
+
+/* EDIT BUTTON  */
+.action-edit {
+    background-color: #3182ce;
+    color: #ffffff;
+    border: none;
+}
+
+.action-edit:hover {
+    background-color: #2b6cb0;
+}
+
+/* DELETE BUTTON */
+.action-delete {
+    background-color: #e53e3e;
+    color: #ffffff;
+    border: none;
+
+}
+
+.action-delete:hover {
+    background-color: #c53030;
+}
+
+/* Make action buttons compact in tables */
+table .btn {
+    padding: 0.45rem 0.75rem;
+    font-size: 0.85rem;
+}
+
+
 /* MODAL BACKDROP */
 .modal {
     display: none; /* Hidden by default */
@@ -282,4 +314,27 @@ a:hover {
         padding: 0.75rem;
         font-size: 0.875rem;
     }
+}
+
+/* MEMBER SEARCH INPUT */
+#membersSearch, #memberSearch {
+    padding: 10px 15px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 1rem;
+    width: 100%;
+    max-width: 300px;
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+    background-color: #fff;
+}
+
+#membersSearch:focus, #memberSearch:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+#membersSearch::placeholder, #memberSearch::placeholder {
+    color: #a0aec0;
 }
