@@ -12,5 +12,5 @@ $id = $_GET['id'];
 $stmt = $pdo->prepare("DELETE FROM members WHERE id = ?");
 $stmt->execute([$id]);
 
-header('Location: trainer_dashboard.php');
+header('Location: trainers_dashboard.php');
 exit;

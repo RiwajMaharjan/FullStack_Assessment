@@ -1,6 +1,8 @@
 <?php
 session_start();
+
 require_once __DIR__ . '/../config/db.php';
+require_once __DIR__ . '/../includes/functions.php';
 
 $email = '';
 $errors = [
@@ -9,6 +11,12 @@ $errors = [
 ];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    // CSRF check
+    if (!verifyCSRFToken($_POST['csrf_token'] ?? '')) {
+        die('Invalid CSRF token');
+    }
+
     $email    = trim($_POST['email'] ?? '');
     $password = $_POST['password'] ?? '';
 
@@ -22,15 +30,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if (!array_filter($errors)) {
-        $sql = "SELECT id, password, role FROM users WHERE email = ?";
+
+        $sql = "SELECT id, password, role FROM users WHERE email = ? LIMIT 1";
         $stmt = $pdo->prepare($sql);
         $stmt->execute([$email]);
-        $user = $stmt->fetch();
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($user && password_verify($password, $user['password'])) {
-            // Login successful
+
+            // Successful login
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['role'] = $user['role'];
+
+            // Optional: regenerate session ID (security best practice)
+            session_regenerate_id(true);
 
             // Redirect based on role
             if ($user['role'] === 'trainer') {
@@ -39,6 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 header('Location: member_dashboard.php');
             }
             exit;
+
         } else {
             $errors['email'] = 'Invalid email or password';
         }
@@ -69,22 +83,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
 
             <form action="" method="POST" class="signup-form">
+
+                <input type="hidden" name="csrf_token" value="<?= generateCSRFToken(); ?>">
+
                 <div class="form-group">
                     <label>Email Address*</label>
-                    <input type="text" name="email" value="<?= htmlspecialchars($email) ?>" placeholder="Enter your email">
+                    <input type="email" name="email" value="<?= htmlspecialchars($email) ?>" placeholder="Enter your email" required>
                     <small class="error"><?= $errors['email'] ?></small>
                 </div>
 
                 <div class="form-group">
                     <label>Password*</label>
-                    <input type="password" name="password" placeholder="Enter your password">
+                    <input type="password" name="password" placeholder="Enter your password" required>
                     <small class="error"><?= $errors['password'] ?></small>
                 </div>
                 
                 <button type="submit" class="signup-btn">Sign in</button>
             </form>
 
-            <p>Don't have an account? <a href="register.php" style="color:#F16D34;">Sign up</a></p>
+            <p>Don't have an account?
+                <a href="register.php" style="color:#F16D34;">Sign up</a>
+            </p>
         </div>
     </main>
 </body>

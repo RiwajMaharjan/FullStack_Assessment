@@ -115,7 +115,7 @@ table tr:hover {
     background: #f7fafc;
 }
 
-/* Link Styles */
+
 a {
     color: #667eea;
     text-decoration: none;
@@ -133,6 +133,124 @@ a:hover {
 .delete-link:hover {
     color: #c53030;
 }
+
+/* MODAL BACKDROP */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5); /* semi-transparent black */
+    transition: opacity 0.3s ease;
+}
+
+/* MODAL CONTENT */
+.modal-content {
+    background-color: #fff;
+    margin: 50px auto;
+    padding: 20px 30px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+    position: relative;
+    animation: slideDown 0.3s ease;
+}
+
+/* MODAL SLIDE DOWN ANIMATION */
+@keyframes slideDown {
+    from { transform: translateY(-50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* CLOSE BUTTON */
+.modal .close {
+    position: absolute;
+    top: 12px;
+    right: 18px;
+    color: #333;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+.modal .close:hover {
+    color: #F16D34; /* match your button color */
+}
+
+/* MODAL HEADINGS */
+.modal h2 {
+    margin-top: 0;
+    font-size: 1.5rem;
+    color: #222;
+    margin-bottom: 15px;
+}
+
+/* FORM INSIDE MODAL */
+.modal form {
+    display: flex;
+    flex-direction: column;
+}
+
+.modal form .form-group {
+    margin-bottom: 12px;
+}
+
+.modal form label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 4px;
+    color: #333;
+}
+
+.modal form input,
+.modal form select,
+.modal form textarea {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.modal form input:focus,
+.modal form select:focus,
+.modal form textarea:focus {
+    border-color: #F16D34;
+    box-shadow: 0 0 5px rgba(241, 109, 52, 0.3);
+    outline: none;
+}
+
+/* SUBMIT BUTTON */
+.modal form button {
+    margin-top: 10px;
+    padding: 10px 15px;
+    background-color: #F16D34;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+}
+
+.modal form button:hover {
+    background-color: #d85c1f;
+}
+
+/* SMALL ERROR TEXT */
+.modal form small.error {
+    color: red;
+    font-size: 0.85rem;
+    margin-top: 2px;
+}
+
 
 /* Responsive Design */
 @media (max-width: 768px) {

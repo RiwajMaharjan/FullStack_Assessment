@@ -1,5 +1,6 @@
 <?php
 session_start();
+require_once __DIR__ . '/../includes/functions.php';
 require_once __DIR__ . '/../config/db.php';
 
 $name = $email = '';
@@ -11,6 +12,9 @@ $errors = [
 ];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (!verifyCSRFToken($_POST['csrf_token'] ?? '')) {
+        die('Invalid CSRF token');
+    }
     $name     = trim($_POST['name'] ?? '');
     $email    = trim($_POST['email'] ?? '');
     $password = $_POST['password'] ?? '';
@@ -103,6 +107,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         I agree to the Terms of service & Privacy Policy.
                     </label>
                 </div>
+                <input type="hidden" name="csrf_token" value="<?= generateCSRFToken(); ?>">
                 <small class="error"><?= $errors['tos'] ?></small>
 
                 <button type="submit" class="signup-btn">Create Account</button>
