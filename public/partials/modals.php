@@ -28,7 +28,8 @@ if (!function_exists('generateCSRFToken')) {
 
             <div class="form-group">
                 <label>Phone</label>
-                <input type="text" name="phone" id="memberPhone">
+                <input type="text" name="phone" id="memberPhone" maxlength="10" pattern="\d{10}"
+                    title="Phone number must be exactly 10 digits">
             </div>
 
             <div class="form-group">

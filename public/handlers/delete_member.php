@@ -9,7 +9,7 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'trainer') {
 }
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: ../dashboards/trainers_dashboard.php');
+    header('Location: ../dashboards/trainer_dashboard.php?msg=Member deleted');
     exit;
 }
 
@@ -25,5 +25,5 @@ if ($member_id) {
     $stmt->execute([$member_id]);
 }
 
-header('Location: ../dashboards/trainers_dashboard.php');
+header('Location: ../dashboards/trainer_dashboard.php');
 exit;

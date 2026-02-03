@@ -15,10 +15,19 @@ if (!verifyCSRFToken($_POST['csrf_token'] ?? '')) {
 $id = $_POST['id'] ?? '';
 
 if ($id) {
-    // Members using this membership will get membership_id = NULL
+    // Check if any members are using this membership
+    $checkStmt = $pdo->prepare("SELECT COUNT(*) FROM members WHERE membership_id = ?");
+    $checkStmt->execute([$id]);
+    if ($checkStmt->fetchColumn() > 0) {
+        $_SESSION['error'] = 'Cannot delete membership. There are members assigned to it.';
+        header('Location: ../dashboards/trainer_dashboard.php');
+        exit;
+    }
+
     $stmt = $pdo->prepare("DELETE FROM memberships WHERE id = ?");
     $stmt->execute([$id]);
+    $_SESSION['msg'] = 'Membership deleted';
 }
 
-header('Location: ../dashboards/trainers_dashboard.php');
+header('Location: ../dashboards/trainer_dashboard.php');
 exit;

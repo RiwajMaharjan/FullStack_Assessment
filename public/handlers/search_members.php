@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once __DIR__ . '/../../config/db.php';
 require_once __DIR__ . '/../../includes/functions.php';
 
@@ -40,8 +41,9 @@ if (!$members) {
     exit;
 }
 
-foreach ($members as $m) {
-    echo '<tr>';
+foreach ($members as $index => $m) {
+    $rowClass = $index >= 5 ? 'hidden-item-toggle' : '';
+    echo '<tr class="' . $rowClass . '">';
 
     echo '<td>' . $m['id'] . '</td>';
     echo '<td>' . htmlspecialchars($m['name']) . '</td>';

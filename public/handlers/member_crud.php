@@ -23,6 +23,11 @@ $id = $_POST['id'] ?? '';
 $name = trim($_POST['name'] ?? '');
 $email = trim($_POST['email'] ?? '');
 $phone = trim($_POST['phone'] ?? '');
+
+if ($phone !== '' && !preg_match('/^\d{10}$/', $phone)) {
+    echo json_encode(['success' => false, 'error' => 'Phone number must be exactly 10 digits']);
+    exit;
+}
 $membership_id = $_POST['membership_id'] ?? null;
 $join_date = $_POST['join_date'] ?? null;
 $expiry_date = $_POST['expiry_date'] ?? null;
@@ -43,13 +48,13 @@ try {
     $stmt = $pdo->prepare("SELECT duration_months FROM memberships WHERE id = ?");
     $stmt->execute([$membership_id]);
     $ms = $stmt->fetch();
-    
+
     if (!$ms) {
         throw new Exception('Invalid membership selected');
     }
 
-    $duration = (int)$ms['duration_months'];
-    
+    $duration = (int) $ms['duration_months'];
+
     // Calculate expiry
     $date = new DateTime($join_date);
     $date->modify("+$duration months");
@@ -95,7 +100,8 @@ try {
         $stmt = $pdo->prepare("SELECT user_id FROM members WHERE id = ?");
         $stmt->execute([$id]);
         $member = $stmt->fetch();
-        if (!$member) throw new Exception('Member not found');
+        if (!$member)
+            throw new Exception('Member not found');
 
         $user_id = $member['user_id'];
 

@@ -64,6 +64,15 @@ document.addEventListener('DOMContentLoaded', () => {
     form.addEventListener('submit', e => {
         e.preventDefault();
         const data = new FormData(form);
+        const phone = data.get('phone').trim();
+
+        if (phone !== '' && !/^\d{10}$/.test(phone)) {
+            const errorEl = form.querySelector('.error-message');
+            if (errorEl) errorEl.textContent = 'Phone number must be exactly 10 digits';
+            else alert('Phone number must be exactly 10 digits');
+            return;
+        }
+
         fetch('../handlers/member_crud.php', { method: 'POST', body: data })
             .then(res => res.json())
             .then(res => {

@@ -19,5 +19,5 @@ if ($id) {
     $stmt->execute([$id]);
 }
 
-header('Location: ../dashboards/trainers_dashboard.php');
+header('Location: ../dashboards/trainer_dashboard.php?msg=Attendance deleted');
 exit;

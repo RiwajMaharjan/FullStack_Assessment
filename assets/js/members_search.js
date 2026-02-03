@@ -40,6 +40,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 .then(res => res.text())
                 .then(html => {
                     tableBody.innerHTML = html;
+
+                    // Update View More button visibility
+                    const viewMoreBtn = document.querySelector('.view-more-btn[data-target="membersTable"]');
+                    if (viewMoreBtn) {
+                        const hasHiddenItems = tableBody.querySelectorAll('.hidden-item-toggle').length > 0;
+                        viewMoreBtn.style.display = hasHiddenItems ? 'block' : 'none';
+                        viewMoreBtn.innerHTML = 'View More <i class="fas fa-chevron-down"></i>';
+                    }
                 })
                 .catch(err => {
                     console.error('Error fetching members:', err);

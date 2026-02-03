@@ -4,12 +4,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const targetId = this.getAttribute('data-target');
             const container = document.getElementById(targetId);
 
-            // Find all hidden items within this container
-            // We look for items that have the 'hidden-item' class originally rendered by PHP
-            // OR items that we have toggled.
-            // Actually, simpler: toggle a 'show-all' class on the container?
-            // No, because we want to animate or just toggle specific elements.
-
             const hiddenItems = container.querySelectorAll('.hidden-item-toggle');
 
             let isExpanding = this.innerHTML.includes('More');
