@@ -9,11 +9,6 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'trainer') {
     header('Location: ../auth/login.php'); // Redirect to login if unauthorized
     exit;
 }
-// Actually unauthorized.php might not exist or verify where it is. Assuming relative redirect.
-// Original was header('Location: unauthorized.php');
-// I didn't see unauthorized.php in file list. Maybe it's missing. I'll stick to ../index.php or similar if missing, but let's keep it relative for now or guess.
-// Let's change it to ../index.php for safety if likely missing, or ../auth/login.php
-
 
 // Fetch data
 $members = $pdo->query("
