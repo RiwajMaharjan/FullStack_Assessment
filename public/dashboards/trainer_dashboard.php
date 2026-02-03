@@ -6,7 +6,7 @@ require_once __DIR__ . '/../../includes/functions.php';
 
 // Access control: only trainers
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'trainer') {
-    header('Location: ../auth/unauthorized.php'); // Assuming unauthorized.php is moved or handled? It wasn't in list. Let's redirect to login.
+    header('Location: ../auth/login.php'); // Redirect to login if unauthorized
     exit;
 }
 // Actually unauthorized.php might not exist or verify where it is. Assuming relative redirect.
@@ -48,21 +48,23 @@ $attendance = $pdo->query("
 <head>
     <meta charset="UTF-8">
     <title>Trainer Dashboard</title>
-    <link rel="stylesheet" href="../../assets/css/trainers_dashboard.css">
+    <link rel="stylesheet" href="../../assets/css/trainer_dashboard.css">
+    <link rel="stylesheet" href="../../assets/css/common.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
 <header>
-    <h1>Trainer Dashboard</h1>
-    <a href="../auth/logout.php" class="btn btn-logout">Logout</a>
+    <h1><i class="fas fa-dumbbell"></i> Trainer Dashboard</h1>
+    <a href="../auth/logout.php" class="btn btn-logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
 </header>
 
 <main>
 
 <!-- MEMBERS -->
 <section>
-    <h2>Members</h2>
-    <button class="btn btn-add add-member-btn">Add Member</button>
+    <h2><i class="fas fa-users"></i> Members</h2>
+    <button class="btn btn-add add-member-btn"><i class="fas fa-plus"></i> Add Member</button>
     <input type="text" id="membersSearch" placeholder="Search members...">
 
     <table>
@@ -73,8 +75,8 @@ $attendance = $pdo->query("
             </tr>
         </thead>
         <tbody id="membersTable">
-            <?php foreach ($members as $m): ?>
-            <tr>
+            <?php foreach ($members as $index => $m): ?>
+            <tr class="<?= $index >= 5 ? 'hidden-item-toggle' : '' ?>">
                 <td><?= $m['id'] ?></td>
                 <td><?= htmlspecialchars($m['name']) ?></td>
                 <td><?= htmlspecialchars($m['email']) ?></td>
@@ -82,7 +84,7 @@ $attendance = $pdo->query("
                 <td><?= htmlspecialchars($m['membership']) ?></td>
                 <td><?= $m['join_date'] ?></td>
                 <td><?= $m['expiry_date'] ?></td>
-                <td style="display: flex; gap: 1rem;">
+                <td style="display: flex; gap: 0.5rem;">
                     <button class="btn action-edit edit-member-btn"
                         data-id="<?= $m['id'] ?>"
                         data-name="<?= htmlspecialchars($m['name']) ?>"
@@ -91,15 +93,15 @@ $attendance = $pdo->query("
                         data-membership_id="<?= $m['membership_id'] ?>"
                         data-join_date="<?= $m['join_date'] ?>"
                         data-expiry_date="<?= $m['expiry_date'] ?>">
-                        Edit
+                        <i class="fas fa-edit"></i> Edit
                     </button>
 
-                    <form action="../handlers/delete_member.php" method="POST">
+                    <form action="../handlers/delete_member.php" method="POST" style="margin: 0;">
                         <input type="hidden" name="id" value="<?= $m['id'] ?>">
                         <input type="hidden" name="csrf_token" value="<?= generateCSRFToken(); ?>">
                         <button type="submit" class="btn action-delete"
-                            onclick="return confirm('Delete this member?')">
-                            Delete
+                             onclick="return confirm('Delete this member?')">
+                            <i class="fas fa-trash"></i> Delete
                         </button>
                     </form>
                 </td>
@@ -107,12 +109,15 @@ $attendance = $pdo->query("
             <?php endforeach; ?>
         </tbody>
     </table>
+    <?php if (count($members) > 5): ?>
+        <button class="view-more-btn" data-target="membersTable">View More <i class="fas fa-chevron-down"></i></button>
+    <?php endif; ?>
 </section>
 
 <!-- MEMBERSHIPS -->
 <section>
-    <h2>Memberships</h2>
-    <button class="btn btn-add add-membership-btn">Add Membership</button>
+    <h2><i class="fas fa-id-card"></i> Memberships</h2>
+    <button class="btn btn-add add-membership-btn"><i class="fas fa-plus"></i> Add Membership</button>
 
     <table>
         <thead>
@@ -120,28 +125,28 @@ $attendance = $pdo->query("
                 <th>ID</th><th>Name</th><th>Duration</th><th>Price</th><th>Actions</th>
             </tr>
         </thead>
-        <tbody>
-            <?php foreach ($memberships as $ms): ?>
-            <tr>
+        <tbody id="membershipsTable">
+            <?php foreach ($memberships as $index => $ms): ?>
+            <tr class="<?= $index >= 5 ? 'hidden-item-toggle' : '' ?>">
                 <td><?= $ms['id'] ?></td>
                 <td><?= htmlspecialchars($ms['name']) ?></td>
                 <td><?= $ms['duration_months'] ?></td>
                 <td><?= $ms['price'] ?></td>
-                <td style="display: flex; gap: 1rem;">
+                <td style="display: flex; gap: 0.5rem;">
                     <button class="btn action-edit edit-membership-btn"
                         data-id="<?= $ms['id'] ?>"
                         data-name="<?= htmlspecialchars($ms['name']) ?>"
                         data-duration_months="<?= $ms['duration_months'] ?>"
                         data-price="<?= $ms['price'] ?>">
-                        Edit
+                        <i class="fas fa-edit"></i> Edit
                     </button>
 
-                    <form action="../handlers/delete_membership.php" method="POST">
+                    <form action="../handlers/delete_membership.php" method="POST" style="margin: 0;">
                         <input type="hidden" name="id" value="<?= $ms['id'] ?>">
                         <input type="hidden" name="csrf_token" value="<?= generateCSRFToken(); ?>">
                         <button class="btn action-delete"
                             onclick="return confirm('Delete this membership?')">
-                            Delete
+                            <i class="fas fa-trash"></i> Delete
                         </button>
                     </form>
                 </td>
@@ -149,12 +154,15 @@ $attendance = $pdo->query("
             <?php endforeach; ?>
         </tbody>
     </table>
+    <?php if (count($memberships) > 5): ?>
+        <button class="view-more-btn" data-target="membershipsTable">View More <i class="fas fa-chevron-down"></i></button>
+    <?php endif; ?>
 </section>
 
 <!-- WORKOUT PLANS -->
 <section>
-    <h2>Workout Plans</h2>
-    <button class="btn btn-add add-workout-btn">Add Workout</button>
+    <h2><i class="fas fa-calendar-alt"></i> Workout Plans</h2>
+    <button class="btn btn-add add-workout-btn"><i class="fas fa-plus"></i> Add Workout</button>
 
     <table>
         <thead>
@@ -162,30 +170,30 @@ $attendance = $pdo->query("
                 <th>ID</th><th>Member</th><th>Details</th><th>Start</th><th>End</th><th>Actions</th>
             </tr>
         </thead>
-        <tbody>
-            <?php foreach ($workout_plans as $w): ?>
-            <tr>
+        <tbody id="workoutsTable">
+            <?php foreach ($workout_plans as $index => $w): ?>
+            <tr class="<?= $index >= 5 ? 'hidden-item-toggle' : '' ?>">
                 <td><?= $w['id'] ?></td>
                 <td><?= htmlspecialchars($w['member_name']) ?></td>
                 <td><?= htmlspecialchars($w['plan_details']) ?></td>
                 <td><?= $w['start_date'] ?></td>
                 <td><?= $w['end_date'] ?></td>
-                <td style="display: flex; gap: 1rem;">
+                <td style="display: flex; gap: 0.5rem;">
                     <button class="btn action-edit edit-workout-btn"
                         data-id="<?= $w['id'] ?>"
                         data-member_id="<?= $w['member_id'] ?>"
                         data-plan_details="<?= htmlspecialchars($w['plan_details']) ?>"
                         data-start_date="<?= $w['start_date'] ?>"
                         data-end_date="<?= $w['end_date'] ?>">
-                        Edit
+                        <i class="fas fa-edit"></i> Edit
                     </button>
 
-                    <form action="../handlers/delete_workout.php" method="POST">
+                    <form action="../handlers/delete_workout.php" method="POST" style="margin: 0;">
                         <input type="hidden" name="id" value="<?= $w['id'] ?>">
                         <input type="hidden" name="csrf_token" value="<?= generateCSRFToken(); ?>">
                         <button class="btn action-delete"
                             onclick="return confirm('Delete this workout?')">
-                            Delete
+                            <i class="fas fa-trash"></i> Delete
                         </button>
                     </form>
                 </td>
@@ -193,12 +201,15 @@ $attendance = $pdo->query("
             <?php endforeach; ?>
         </tbody>
     </table>
+    <?php if (count($workout_plans) > 5): ?>
+        <button class="view-more-btn" data-target="workoutsTable">View More <i class="fas fa-chevron-down"></i></button>
+    <?php endif; ?>
 </section>
 
 <!-- ATTENDANCE -->
 <section>
-    <h2>Attendance</h2>
-    <button class="btn btn-add add-attendance-btn">Add Attendance</button>
+    <h2><i class="fas fa-clipboard-check"></i> Attendance</h2>
+    <button class="btn btn-add add-attendance-btn"><i class="fas fa-plus"></i> Add Attendance</button>
 
     <table>
         <thead>
@@ -206,28 +217,28 @@ $attendance = $pdo->query("
                 <th>ID</th><th>Member</th><th>Date</th><th>Status</th><th>Actions</th>
             </tr>
         </thead>
-        <tbody>
-            <?php foreach ($attendance as $a): ?>
-            <tr>
+        <tbody id="attendanceTable">
+            <?php foreach ($attendance as $index => $a): ?>
+            <tr class="<?= $index >= 5 ? 'hidden-item-toggle' : '' ?>">
                 <td><?= $a['id'] ?></td>
                 <td><?= htmlspecialchars($a['member_name']) ?></td>
                 <td><?= $a['date'] ?></td>
                 <td><?= $a['status'] ?></td>
-                <td style="display: flex; gap: 1rem;">
+                <td style="display: flex; gap: 0.5rem;">
                     <button class="btn action-edit edit-attendance-btn"
                         data-id="<?= $a['id'] ?>"
                         data-member_id="<?= $a['member_id'] ?>"
                         data-date="<?= $a['date'] ?>"
                         data-status="<?= $a['status'] ?>">
-                        Edit
+                        <i class="fas fa-edit"></i> Edit
                     </button>
 
-                    <form action="../handlers/delete_attendance.php" method="POST">
+                    <form action="../handlers/delete_attendance.php" method="POST" style="margin: 0;">
                         <input type="hidden" name="id" value="<?= $a['id'] ?>">
                         <input type="hidden" name="csrf_token" value="<?= generateCSRFToken(); ?>">
                         <button class="btn action-delete"
                             onclick="return confirm('Delete this attendance?')">
-                            Delete
+                            <i class="fas fa-trash"></i> Delete
                         </button>
                     </form>
                 </td>
@@ -235,6 +246,9 @@ $attendance = $pdo->query("
             <?php endforeach; ?>
         </tbody>
     </table>
+    <?php if (count($attendance) > 5): ?>
+        <button class="view-more-btn" data-target="attendanceTable">View More <i class="fas fa-chevron-down"></i></button>
+    <?php endif; ?>
 </section>
 
 </main>
@@ -246,6 +260,7 @@ $attendance = $pdo->query("
 <script src="../../assets/js/membership_modal.js"></script>
 <script src="../../assets/js/workout_modal.js"></script>
 <script src="../../assets/js/attendance_modal.js"></script>
+<script src="../../assets/js/view_more.js"></script>
 
 </body>
 </html>

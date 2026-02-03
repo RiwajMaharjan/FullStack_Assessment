@@ -33,6 +33,34 @@ if ($name === '' || $email === '' || empty($membership_id)) {
     exit;
 }
 
+if (empty($join_date)) {
+    echo json_encode(['success' => false, 'error' => 'Join date is required']);
+    exit;
+}
+
+// Calculate expiry date based on membership duration
+try {
+    $stmt = $pdo->prepare("SELECT duration_months FROM memberships WHERE id = ?");
+    $stmt->execute([$membership_id]);
+    $ms = $stmt->fetch();
+    
+    if (!$ms) {
+        throw new Exception('Invalid membership selected');
+    }
+
+    $duration = (int)$ms['duration_months'];
+    
+    // Calculate expiry
+    $date = new DateTime($join_date);
+    $date->modify("+$duration months");
+    $expiry_date = $date->format('Y-m-d');
+
+} catch (Exception $e) {
+    echo json_encode(['success' => false, 'error' => 'Error calculating expiry: ' . $e->getMessage()]);
+    exit;
+}
+
+
 try {
     if ($id === '') {
         // APPROVE new member
@@ -59,7 +87,7 @@ try {
         // Add to members table
         $stmt = $pdo->prepare("INSERT INTO members (user_id, full_name, email, phone, membership_id, join_date, expiry_date)
                                VALUES (?, ?, ?, ?, ?, ?, ?)");
-        $stmt->execute([$user_id, $name, $email, $phone, $membership_id ?: null, $join_date ?: null, $expiry_date ?: null]);
+        $stmt->execute([$user_id, $name, $email, $phone, $membership_id, $join_date, $expiry_date]);
 
         echo json_encode(['success' => true, 'message' => 'Member approved successfully']);
     } else {
@@ -83,7 +111,7 @@ try {
         $stmt = $pdo->prepare("UPDATE members 
                                SET full_name = ?, email = ?, phone = ?, membership_id = ?, join_date = ?, expiry_date = ?
                                WHERE id = ?");
-        $stmt->execute([$name, $email, $phone, $membership_id ?: null, $join_date ?: null, $expiry_date ?: null, $id]);
+        $stmt->execute([$name, $email, $phone, $membership_id, $join_date, $expiry_date, $id]);
 
         echo json_encode(['success' => true, 'message' => 'Member updated successfully']);
     }

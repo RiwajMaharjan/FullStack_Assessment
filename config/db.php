@@ -10,6 +10,6 @@
         $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
         // echo "connected success!";
     } catch (\Throwable $th) {
-        echo "Connection failed: " . $e->getMessage();
+        echo "Connection failed: " . $th->getMessage();
     }
 ?>

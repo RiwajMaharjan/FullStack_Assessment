@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             // Redirect based on role
             if ($user['role'] === 'trainer') {
-                header('Location: ../dashboards/trainers_dashboard.php');
+                header('Location: ../dashboards/trainer_dashboard.php');
             } else {
                 header('Location: ../dashboards/member_dashboard.php');
             }
@@ -102,7 +102,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </form>
 
             <p>Don't have an account?
-                <a href="register.php" style="color:#F16D34;">Sign up</a>
+                <a href="signup.php" style="color:#F16D34;">Sign up</a>
             </p>
         </div>
     </main>

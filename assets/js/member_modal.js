@@ -15,6 +15,32 @@ document.addEventListener('DOMContentLoaded', () => {
         modal.style.display = 'block';
     });
 
+    // Expiry calculation
+    const memberMembership = document.getElementById('memberMembership');
+    const memberJoinDate = document.getElementById('memberJoinDate');
+    const memberExpiryDate = document.getElementById('memberExpiryDate');
+
+    function calculateExpiry() {
+        const joinDateVal = memberJoinDate.value;
+        const selectedOption = memberMembership.options[memberMembership.selectedIndex];
+        const duration = selectedOption ? parseInt(selectedOption.getAttribute('data-duration')) : 0;
+
+        if (joinDateVal && duration) {
+            const date = new Date(joinDateVal);
+            date.setMonth(date.getMonth() + duration);
+            // Format to YYYY-MM-DD
+            const yyyy = date.getFullYear();
+            const mm = String(date.getMonth() + 1).padStart(2, '0');
+            const dd = String(date.getDate()).padStart(2, '0');
+            memberExpiryDate.value = `${yyyy}-${mm}-${dd}`;
+        } else {
+            memberExpiryDate.value = '';
+        }
+    }
+
+    memberMembership.addEventListener('change', calculateExpiry);
+    memberJoinDate.addEventListener('change', calculateExpiry);
+
     // Open modal for Edit
     document.querySelectorAll('.edit-member-btn').forEach(btn => {
         btn.addEventListener('click', () => {
@@ -25,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
             form.phone.value = btn.dataset.phone;
             form.membership_id.value = btn.dataset.membership_id;
             form.join_date.value = btn.dataset.join_date;
-            form.expiry_date.value = btn.dataset.expiry_date;
+            form.expiry_date.value = btn.dataset.expiry_date; // Will be overwritten if they change fields
             modal.style.display = 'block';
         });
     });

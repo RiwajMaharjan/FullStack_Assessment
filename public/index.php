@@ -18,7 +18,7 @@
         </ul>
         <div class="auth-buttons">
             <a href="auth/login.php" class="btn btn-login">Login</a>
-            <a href="auth/register.php" class="btn btn-signup">Sign Up</a>
+            <a href="auth/signup.php" class="btn btn-signup">Sign Up</a>
         </div>
     </nav>
 

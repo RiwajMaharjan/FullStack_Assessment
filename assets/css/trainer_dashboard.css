@@ -79,7 +79,12 @@ section h2 {
     text-decoration: none;
     font-weight: 600;
     margin-bottom: 1.5rem;
+    margin-bottom: 1.5rem;
     transition: all 0.3s ease;
+}
+
+.btn i {
+    margin-right: 0.5rem;
 }
 
 .btn:hover {
@@ -168,7 +173,8 @@ table .btn {
 
 /* MODAL BACKDROP */
 .modal {
-    display: none; /* Hidden by default */
+    display: none;
+    /* Hidden by default */
     position: fixed;
     z-index: 1000;
     left: 0;
@@ -176,7 +182,8 @@ table .btn {
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgba(0, 0, 0, 0.5); /* semi-transparent black */
+    background-color: rgba(0, 0, 0, 0.5);
+    /* semi-transparent black */
     transition: opacity 0.3s ease;
 }
 
@@ -188,15 +195,22 @@ table .btn {
     border-radius: 12px;
     width: 90%;
     max-width: 500px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
     position: relative;
     animation: slideDown 0.3s ease;
 }
 
 /* MODAL SLIDE DOWN ANIMATION */
 @keyframes slideDown {
-    from { transform: translateY(-50px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }
 
 /* CLOSE BUTTON */
@@ -210,8 +224,10 @@ table .btn {
     cursor: pointer;
     transition: color 0.2s ease;
 }
+
 .modal .close:hover {
-    color: #F16D34; /* match your button color */
+    color: #F16D34;
+    /* match your button color */
 }
 
 /* MODAL HEADINGS */
@@ -317,7 +333,8 @@ table .btn {
 }
 
 /* MEMBER SEARCH INPUT */
-#membersSearch, #memberSearch {
+#membersSearch,
+#memberSearch {
     padding: 10px 15px;
     border: 1px solid #e2e8f0;
     border-radius: 8px;
@@ -329,12 +346,14 @@ table .btn {
     background-color: #fff;
 }
 
-#membersSearch:focus, #memberSearch:focus {
+#membersSearch:focus,
+#memberSearch:focus {
     outline: none;
     border-color: #667eea;
     box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
 }
 
-#membersSearch::placeholder, #memberSearch::placeholder {
+#membersSearch::placeholder,
+#memberSearch::placeholder {
     color: #a0aec0;
 }

@@ -58,6 +58,8 @@ if (!$member) {
     <meta charset="UTF-8">
     <title>Member Dashboard</title>
     <link rel="stylesheet" href="../../assets/css/member_dashboard.css">
+    <link rel="stylesheet" href="../../assets/css/common.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
@@ -65,7 +67,7 @@ if (!$member) {
     <h1>
         Welcome<?= $showPending ? '' : ', ' . htmlspecialchars($member['name']) ?>
     </h1>
-    <a href="../auth/logout.php">Logout</a>
+    <a href="../auth/logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a>
 </header>
 
 <main>
@@ -77,27 +79,30 @@ if (!$member) {
     </section>
 <?php else: ?>
     <section>
-        <h2>Profile</h2>
+        <h2><i class="fas fa-user-circle"></i> Profile</h2>
         <p><strong>Name:</strong> <?= htmlspecialchars($member['name']) ?></p>
         <p><strong>Email:</strong> <?= htmlspecialchars($member['email']) ?></p>
     </section>
 
-    <section>
-        <h2>Workout Plans</h2>
+    <section id="workoutsList">
+        <h2><i class="fas fa-dumbbell"></i> Workout Plans</h2>
         <?php if ($workouts): ?>
-            <?php foreach ($workouts as $workout): ?>
-                <div>
+            <?php foreach ($workouts as $index => $workout): ?>
+                <div class="<?= $index >= 5 ? 'hidden-item-toggle' : '' ?>">
                     <p><?= htmlspecialchars($workout['plan_details']) ?></p>
                     <small><?= $workout['start_date'] ?> to <?= $workout['end_date'] ?></small>
                 </div>
             <?php endforeach; ?>
+            <?php if (count($workouts) > 5): ?>
+                <button class="view-more-btn" data-target="workoutsList">View More <i class="fas fa-chevron-down"></i></button>
+            <?php endif; ?>
         <?php else: ?>
             <p>No workout plans assigned.</p>
         <?php endif; ?>
     </section>
 
     <section>
-        <h2>Membership</h2>
+        <h2><i class="fas fa-id-card"></i> Membership</h2>
         <?php if ($membership && $membership['membership_type']): ?>
             <p><strong>Type:</strong> <?= htmlspecialchars($membership['membership_type']) ?></p>
             <p><?= $membership['start_date'] ?> to <?= $membership['end_date'] ?></p>
@@ -107,17 +112,20 @@ if (!$member) {
     </section>
 
     <section>
-        <h2>Attendance</h2>
+        <h2><i class="fas fa-calendar-check"></i> Attendance</h2>
         <?php if ($attendance): ?>
-            <table>
+            <table id="attendanceTable">
                 <tr><th>Date</th><th>Status</th></tr>
-                <?php foreach ($attendance as $row): ?>
-                    <tr>
+                <?php foreach ($attendance as $index => $row): ?>
+                    <tr class="<?= $index >= 5 ? 'hidden-item-toggle' : '' ?>">
                         <td><?= $row['date'] ?></td>
                         <td><?= htmlspecialchars($row['status']) ?></td>
                     </tr>
                 <?php endforeach; ?>
             </table>
+            <?php if (count($attendance) > 5): ?>
+                <button class="view-more-btn" data-target="attendanceTable">View More <i class="fas fa-chevron-down"></i></button>
+            <?php endif; ?>
         <?php else: ?>
             <p>No attendance records.</p>
         <?php endif; ?>
@@ -126,4 +134,5 @@ if (!$member) {
 </main>
 
 </body>
+<script src="../../assets/js/view_more.js"></script>
 </html>

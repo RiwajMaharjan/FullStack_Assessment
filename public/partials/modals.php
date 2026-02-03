@@ -36,19 +36,21 @@ if (!function_exists('generateCSRFToken')) {
                 <select name="membership_id" id="memberMembership" required>
                     <option value="">Select membership</option>
                     <?php foreach ($memberships as $ms): ?>
-                        <option value="<?= $ms['id'] ?>"><?= htmlspecialchars($ms['name']) ?></option>
+                        <option value="<?= $ms['id'] ?>" data-duration="<?= $ms['duration_months'] ?>">
+                            <?= htmlspecialchars($ms['name']) ?> (<?= $ms['duration_months'] ?> months)
+                        </option>
                     <?php endforeach; ?>
                 </select>
             </div>
 
             <div class="form-group">
                 <label>Join Date</label>
-                <input type="date" name="join_date" id="memberJoinDate">
+                <input type="date" name="join_date" id="memberJoinDate" required>
             </div>
 
             <div class="form-group">
-                <label>Expiry Date</label>
-                <input type="date" name="expiry_date" id="memberExpiryDate">
+                <label>Expiry Date (Calculated)</label>
+                <input type="date" name="expiry_date" id="memberExpiryDate" readonly>
             </div>
 
             <button type="submit" id="memberModalSubmit">Save</button>
